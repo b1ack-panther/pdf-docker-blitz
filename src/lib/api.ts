@@ -21,106 +21,11 @@ export class ApiService {
   private mockAlerts: Alert[] = [];
   
   private setupMockData() {
-    // Initialize mock cameras
-    this.mockCameras = [
-      {
-        id: '1',
-        name: 'Main Entrance',
-        rtspUrl: 'rtsp://camera1.example.com/stream',
-        location: 'Building A - Main Door',
-        isEnabled: true,
-        isStreaming: true,
-        status: 'active',
-        fps: 30,
-        faceDetectionEnabled: true,
-        createdAt: new Date('2024-01-15'),
-        updatedAt: new Date(),
-      },
-      {
-        id: '2',
-        name: 'Parking Lot',
-        rtspUrl: 'rtsp://camera2.example.com/stream',
-        location: 'Parking Area - North',
-        isEnabled: true,
-        isStreaming: false,
-        status: 'inactive',
-        fps: 25,
-        faceDetectionEnabled: false,
-        createdAt: new Date('2024-01-20'),
-        updatedAt: new Date(),
-      },
-      {
-        id: '3',
-        name: 'Conference Room',
-        rtspUrl: 'rtsp://camera3.example.com/stream',
-        location: 'Building B - Room 201',
-        isEnabled: true,
-        isStreaming: true,
-        status: 'active',
-        fps: 30,
-        faceDetectionEnabled: true,
-        createdAt: new Date('2024-02-01'),
-        updatedAt: new Date(),
-      },
-      {
-        id: '4',
-        name: 'Lobby Camera',
-        rtspUrl: 'rtsp://camera4.example.com/stream',
-        location: 'Main Lobby',
-        isEnabled: false,
-        isStreaming: false,
-        status: 'error',
-        fps: 0,
-        faceDetectionEnabled: false,
-        createdAt: new Date('2024-02-10'),
-        updatedAt: new Date(),
-      },
-    ];
+    // Initialize with no cameras - user must add them
+    this.mockCameras = [];
     
-    // Initialize mock alerts
-    this.mockAlerts = [
-      {
-        id: '1',
-        cameraId: '1',
-        cameraName: 'Main Entrance',
-        type: 'face_detected',
-        message: 'Face detected with 95% confidence',
-        timestamp: new Date(Date.now() - 5 * 60 * 1000),
-        isRead: false,
-        faceDetection: {
-          id: 'fd1',
-          cameraId: '1',
-          boundingBox: { x: 150, y: 100, width: 80, height: 100 },
-          confidence: 0.95,
-          timestamp: new Date(Date.now() - 5 * 60 * 1000),
-        },
-      },
-      {
-        id: '2',
-        cameraId: '3',
-        cameraName: 'Conference Room',
-        type: 'face_detected',
-        message: 'Multiple faces detected',
-        timestamp: new Date(Date.now() - 15 * 60 * 1000),
-        isRead: true,
-        faceDetection: {
-          id: 'fd2',
-          cameraId: '3',
-          boundingBox: { x: 200, y: 150, width: 75, height: 95 },
-          confidence: 0.87,
-          timestamp: new Date(Date.now() - 15 * 60 * 1000),
-        },
-      },
-      {
-        id: '3',
-        cameraId: '4',
-        cameraName: 'Lobby Camera',
-        type: 'stream_error',
-        message: 'Stream connection lost',
-        timestamp: new Date(Date.now() - 30 * 60 * 1000),
-        isRead: true,
-      },
-    ];
+    // Initialize with no cameras and no alerts - clean start
+    this.mockAlerts = [];
   }
   
   private getAuthHeaders(): HeadersInit {

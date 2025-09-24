@@ -67,20 +67,6 @@ export function DashboardHeader({ totalCameras, activeCameras, unreadAlerts }: D
             </div>
           </div>
 
-          {/* Connection Status */}
-          <div className="flex items-center space-x-2">
-            {isConnected ? (
-              <Badge variant="outline" className="status-active text-xs">
-                <Wifi className="w-3 h-3 mr-1" />
-                Connected
-              </Badge>
-            ) : (
-              <Badge variant="outline" className="status-error text-xs">
-                <WifiOff className="w-3 h-3 mr-1" />
-                Disconnected
-              </Badge>
-            )}
-          </div>
         </div>
 
         {/* Stats & User Menu */}

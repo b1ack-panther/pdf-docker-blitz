@@ -145,23 +145,25 @@ export function CameraGrid({ cameras, onAddCamera, onUpdateCameras }: CameraGrid
   }
 
   return (
-    <div className="space-y-6">
+    <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold">Camera Monitoring</h2>
-          <p className="text-muted-foreground">
-            {cameras.length} camera{cameras.length !== 1 ? 's' : ''} configured
-          </p>
+      {cameras.length > 0 && (
+        <div className="flex items-center justify-between mb-6">
+          <Button onClick={onAddCamera} variant="default" className="flex items-center space-x-2">
+            <Plus className="w-4 h-4" />
+            <span>Add Camera</span>
+          </Button>
         </div>
-        <Button onClick={onAddCamera} variant="default" className="flex items-center space-x-2">
-          <Plus className="w-4 h-4" />
-          <span>Add Camera</span>
-        </Button>
-      </div>
+      )}
 
       {/* Camera Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+      <div className="flex-1 grid gap-6" style={{
+        gridTemplateColumns: cameras.length === 1 ? '1fr' : 
+                           cameras.length === 2 ? 'repeat(2, 1fr)' :
+                           cameras.length === 3 ? 'repeat(2, 1fr)' :
+                           'repeat(2, 1fr)',
+        gridTemplateRows: cameras.length <= 2 ? '1fr' : 'repeat(2, 1fr)'
+      }}>
         {cameras.map(camera => (
           <CameraTile
             key={camera.id}

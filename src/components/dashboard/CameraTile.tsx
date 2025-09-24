@@ -160,7 +160,10 @@ export function CameraTile({
                   </>
                 )}
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => {
+                // TODO: Open camera settings dialog
+                console.log('Opening camera settings for:', camera.name);
+              }}>
                 <Settings className="w-4 h-4 mr-2" />
                 Camera Settings
               </DropdownMenuItem>

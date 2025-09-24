@@ -51,28 +51,25 @@ export default function Dashboard() {
   const unreadAlerts = alerts.filter(alert => !alert.isRead).length;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
       <DashboardHeader 
         totalCameras={cameras.length}
         activeCameras={activeCameras}
         unreadAlerts={unreadAlerts}
       />
       
-      <main className="container mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-          {/* Main Camera Grid */}
-          <div className="xl:col-span-3">
+      <main className="flex-1 flex overflow-hidden">
+        <div className="flex-1 p-6 overflow-hidden">
           <CameraGrid 
-              cameras={cameras}
-              onAddCamera={() => setShowAddCamera(true)}
-              onUpdateCameras={(updater) => setCameras(updater)}
-            />
-          </div>
-          
-          {/* Alerts Sidebar */}
-          <div className="xl:col-span-1">
-            <AlertsPanel />
-          </div>
+            cameras={cameras}
+            onAddCamera={() => setShowAddCamera(true)}
+            onUpdateCameras={(updater) => setCameras(updater)}
+          />
+        </div>
+        
+        {/* Alerts Sidebar */}
+        <div className="w-80 border-l border-border/50 bg-card/30">
+          <AlertsPanel />
         </div>
       </main>
 
