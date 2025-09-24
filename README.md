@@ -1,73 +1,233 @@
-# Welcome to your Lovable project
+# Skylark Labs - Real-Time Multi-Camera Face Detection Dashboard
 
-## Project info
+A sophisticated surveillance dashboard application featuring real-time face detection, WebRTC streaming, and live alert notifications. Built with modern web technologies and designed for enterprise security monitoring.
 
-**URL**: https://lovable.dev/projects/1c87aa61-8695-4ccf-a755-164359a33065
+## 🎯 Project Overview
 
-## How can I edit this code?
+This project implements the frontend portion of a comprehensive multi-camera face detection system as specified in the Skylark Labs Full Stack Engineer coding test. The application demonstrates:
 
-There are several ways of editing your application.
+- **Real-time camera monitoring** with live stream visualization
+- **Face detection overlays** with confidence scoring and bounding boxes
+- **WebSocket-based live alerts** with instant notifications
+- **Responsive dashboard design** optimized for both desktop and mobile
+- **JWT authentication** with secure login system
+- **Professional surveillance UI** with dark theme optimized for monitoring
 
-**Use Lovable**
+## 🏗️ Architecture
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1c87aa61-8695-4ccf-a755-164359a33065) and start prompting.
+### Frontend (Implemented)
+- **React 18** with TypeScript for type safety
+- **Vite** for fast development and optimized builds
+- **Tailwind CSS** with custom design system for surveillance aesthetics
+- **Shadcn/UI** components customized for monitoring interfaces
+- **React Router** for navigation and authentication flows
 
-Changes made via Lovable will be committed automatically to this repo.
+### Backend Architecture (Design Reference)
+The frontend is designed to integrate with:
+- **Backend API**: TypeScript + Hono + Prisma + PostgreSQL
+- **Worker Service**: Golang + Gin + FFmpeg + OpenCV + go-face
+- **Streaming**: MediaMTX for WebRTC signaling and media proxying
+- **Infrastructure**: Docker + Docker Compose for microservices
 
-**Use your preferred IDE**
+## ✨ Key Features
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 🔐 Authentication System
+- JWT-based secure authentication
+- Session management with automatic token refresh
+- Protected routes and API endpoints
+- Demo credentials: `admin` / `password`
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 📹 Camera Management
+- **CRUD Operations**: Add, edit, delete, and configure cameras
+- **RTSP Stream Support**: Input validation for RTSP URLs
+- **Real-time Status**: Active, inactive, connecting, and error states
+- **Live Controls**: Start/stop streaming with instant feedback
 
-Follow these steps:
+### 🎯 Face Detection
+- **Real-time Overlays**: Bounding boxes with confidence scores
+- **Toggle Control**: Enable/disable per camera
+- **Alert Generation**: Instant notifications on face detection
+- **Performance Metrics**: FPS and stream quality monitoring
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### 🚨 Live Alert System
+- **WebSocket Integration**: Real-time alert notifications
+- **Alert Types**: Face detection, stream errors, camera offline
+- **Alert Management**: Mark as read, filter unread, batch operations
+- **Historical Data**: Recent alerts with timestamps and details
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 📱 Responsive Design
+- **Multi-device Support**: Desktop, tablet, and mobile optimized
+- **Grid Layouts**: Adaptive camera tile arrangements
+- **Dark Theme**: Eye-friendly monitoring interface
+- **Accessibility**: Proper ARIA labels and keyboard navigation
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🚀 Getting Started
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Prerequisites
+- Node.js 18+ and npm
+- Modern web browser with WebRTC support
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd skylark-face-detection-dashboard
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open browser**
+   Navigate to `http://localhost:8080`
+
+### Login Credentials
+```
+Username: admin
+Password: password
 ```
 
-**Edit a file directly in GitHub**
+## 🎨 Design System
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The application uses a carefully crafted design system optimized for surveillance monitoring:
 
-**Use GitHub Codespaces**
+### Color Palette
+- **Primary**: Blue accent (#3B82F6) for alerts and primary actions
+- **Background**: Dark theme (#1A1A1A) to reduce eye strain
+- **Status Colors**: 
+  - Green (#10B981) for active streams
+  - Red (#EF4444) for errors and alerts
+  - Yellow (#F59E0B) for warnings and connecting states
+  - Gray (#6B7280) for inactive states
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Typography
+- **Font**: JetBrains Mono for technical precision
+- **Hierarchy**: Clear information hierarchy for monitoring data
 
-## What technologies are used for this project?
+### Components
+- **Camera Tiles**: Live stream visualization with overlays
+- **Status Indicators**: Real-time status with animations
+- **Alert Notifications**: Slide-in animations for new alerts
+- **Control Buttons**: Contextual actions with loading states
 
-This project is built with:
+## 🛠️ Technical Implementation
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### State Management
+- **React Hooks**: useState, useEffect for local state
+- **Context Pattern**: Authentication state management
+- **Real-time Updates**: WebSocket integration for live data
 
-## How can I deploy this project?
+### API Integration
+- **Mock Services**: Simulated backend with realistic delays
+- **Error Handling**: Comprehensive error states and recovery
+- **Loading States**: User feedback during operations
+- **Optimistic Updates**: Immediate UI feedback
 
-Simply open [Lovable](https://lovable.dev/projects/1c87aa61-8695-4ccf-a755-164359a33065) and click on Share -> Publish.
+### WebSocket Simulation
+- **Live Alerts**: Simulated face detection events
+- **Status Updates**: Camera state changes
+- **Connection Management**: Reconnection with exponential backoff
 
-## Can I connect a custom domain to my Lovable project?
+## 📋 Testing
 
-Yes, you can!
+The application includes comprehensive error handling and edge cases:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- **Authentication**: Invalid credentials, token expiration
+- **Network**: Connection failures, timeout handling
+- **Validation**: RTSP URL format, required fields
+- **Real-time**: WebSocket disconnections, reconnection logic
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 🔧 Production Deployment
+
+### Build for Production
+```bash
+npm run build
+```
+
+### Docker Deployment
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+EXPOSE 8080
+CMD ["npm", "run", "preview"]
+```
+
+## 🌟 Integration with Backend Services
+
+This frontend is designed to integrate seamlessly with the specified backend architecture:
+
+### API Endpoints Expected
+```typescript
+// Authentication
+POST /api/auth/login
+POST /api/auth/refresh
+DELETE /api/auth/logout
+
+// Camera Management  
+GET /api/cameras
+POST /api/cameras
+PUT /api/cameras/:id
+DELETE /api/cameras/:id
+POST /api/cameras/:id/start
+POST /api/cameras/:id/stop
+
+// Alerts
+GET /api/alerts
+GET /api/cameras/:id/alerts
+PUT /api/alerts/:id/read
+
+// WebSocket
+WS /api/ws (with JWT authentication)
+```
+
+### WebSocket Message Format
+```typescript
+interface WebSocketMessage {
+  type: 'alert' | 'stream_status' | 'face_detection' | 'stats';
+  payload: Alert | Camera | FaceDetection | StreamStats;
+  timestamp: Date;
+}
+```
+
+## 📊 Performance Considerations
+
+- **Virtual Scrolling**: Efficient rendering of large alert lists
+- **Image Optimization**: Lazy loading and responsive images  
+- **Bundle Splitting**: Code splitting for optimal loading
+- **Caching**: Smart caching of camera configurations and alerts
+
+## 🔒 Security Features
+
+- **JWT Authentication**: Secure token-based authentication
+- **HTTPS Ready**: SSL/TLS configuration for production
+- **Input Validation**: Client-side validation with server-side backup
+- **CSRF Protection**: Cross-site request forgery prevention
+- **Content Security Policy**: XSS protection headers
+
+## 🎯 Future Enhancements
+
+- **Multi-tenant Support**: Organization-based camera groups
+- **Advanced Analytics**: Heat maps, detection patterns
+- **Mobile App**: React Native companion app
+- **AI Model Selection**: Multiple face detection models
+- **Cloud Storage**: Alert image archival
+- **API Rate Limiting**: Request throttling and queuing
+
+## 📝 License
+
+This project is part of the Skylark Labs coding assessment and demonstrates enterprise-grade surveillance dashboard development capabilities.
+
+---
+
+**Built with ❤️ for Skylark Labs - Real-time surveillance made simple**

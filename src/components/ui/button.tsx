@@ -15,6 +15,12 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // Camera dashboard specific variants
+        stream: "bg-stream-active text-success-foreground hover:bg-stream-active/80 shadow-sm",
+        stop: "bg-destructive/20 text-destructive border border-destructive/30 hover:bg-destructive/30",
+        warning: "bg-warning text-warning-foreground hover:bg-warning/90",
+        success: "bg-success text-success-foreground hover:bg-success/90",
+        camera: "bg-card border border-border hover:bg-accent/50 text-card-foreground shadow-card",
       },
       size: {
         default: "h-10 px-4 py-2",
