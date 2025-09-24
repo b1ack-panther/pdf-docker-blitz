@@ -153,15 +153,16 @@ export function AddCameraDialog({ open, onOpenChange, onCameraAdded }: AddCamera
               <Settings className="w-4 h-4" />
               <span>Target FPS</span>
             </Label>
-            <Input
+            <select
               id="fps"
-              type="number"
-              min="1"
-              max="60"
               value={formData.fps}
-              onChange={(e) => setFormData(prev => ({ ...prev, fps: parseInt(e.target.value) || 30 }))}
-              className="bg-input border-border"
-            />
+              onChange={(e) => setFormData(prev => ({ ...prev, fps: parseInt(e.target.value) }))}
+              className="flex h-10 w-full rounded-md border border-border bg-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <option value={15}>15 FPS</option>
+              <option value={30}>30 FPS</option>
+              <option value={60}>60 FPS</option>
+            </select>
           </div>
 
           {/* Face Detection Toggle */}

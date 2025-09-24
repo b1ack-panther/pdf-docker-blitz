@@ -62,7 +62,11 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
           {/* Main Camera Grid */}
           <div className="xl:col-span-3">
-            <CameraGrid onAddCamera={() => setShowAddCamera(true)} />
+          <CameraGrid 
+              cameras={cameras}
+              onAddCamera={() => setShowAddCamera(true)}
+              onUpdateCameras={(updater) => setCameras(updater)}
+            />
           </div>
           
           {/* Alerts Sidebar */}

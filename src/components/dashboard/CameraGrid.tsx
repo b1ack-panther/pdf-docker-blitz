@@ -7,31 +7,32 @@ import { Loader2, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface CameraGridProps {
+  cameras: Camera[];
   onAddCamera: () => void;
+  onUpdateCameras: (updater: (cameras: Camera[]) => Camera[]) => void;
 }
 
-export function CameraGrid({ onAddCamera }: CameraGridProps) {
-  const [cameras, setCameras] = useState<Camera[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+export function CameraGrid({ cameras, onAddCamera, onUpdateCameras }: CameraGridProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const [cameraAlerts, setCameraAlerts] = useState<Record<string, AlertType[]>>({});
 
   useEffect(() => {
-    loadCameras();
+    if (cameras.length > 0) {
+      loadCameraAlerts();
+    }
     setupWebSocketListeners();
     
     return () => {
       // Cleanup WebSocket listeners would go here
     };
-  }, []);
+  }, [cameras]);
 
-  const loadCameras = async () => {
+  const loadCameraAlerts = async () => {
     try {
       setIsLoading(true);
-      const camerasData = await apiService.getCameras();
-      setCameras(camerasData);
       
       // Load recent alerts for each camera
-      const alertsPromises = camerasData.map(async (camera) => {
+      const alertsPromises = cameras.map(async (camera) => {
         const alerts = await apiService.getCameraAlerts(camera.id, 5);
         return { cameraId: camera.id, alerts };
       });
@@ -44,7 +45,7 @@ export function CameraGrid({ onAddCamera }: CameraGridProps) {
       
       setCameraAlerts(alertsMap);
     } catch (error) {
-      console.error('Failed to load cameras:', error);
+      console.error('Failed to load camera alerts:', error);
     } finally {
       setIsLoading(false);
     }
@@ -59,7 +60,7 @@ export function CameraGrid({ onAddCamera }: CameraGridProps) {
     });
 
     wsService.on('stream_status', (data: { cameraId: string; status: Camera['status']; isStreaming: boolean }) => {
-      setCameras(prev => prev.map(camera => 
+      onUpdateCameras(prev => prev.map(camera => 
         camera.id === data.cameraId 
           ? { ...camera, status: data.status, isStreaming: data.isStreaming }
           : camera
@@ -76,7 +77,7 @@ export function CameraGrid({ onAddCamera }: CameraGridProps) {
       }
       
       // Update local state optimistically
-      setCameras(prev => prev.map(camera => 
+      onUpdateCameras(prev => prev.map(camera => 
         camera.id === cameraId 
           ? { 
               ...camera, 
@@ -93,7 +94,7 @@ export function CameraGrid({ onAddCamera }: CameraGridProps) {
   const handleUpdateCamera = async (updatedCamera: Camera) => {
     try {
       await apiService.updateCamera(updatedCamera.id, updatedCamera);
-      setCameras(prev => prev.map(camera => 
+      onUpdateCameras(prev => prev.map(camera => 
         camera.id === updatedCamera.id ? updatedCamera : camera
       ));
     } catch (error) {
@@ -104,7 +105,7 @@ export function CameraGrid({ onAddCamera }: CameraGridProps) {
   const handleDeleteCamera = async (cameraId: string) => {
     try {
       await apiService.deleteCamera(cameraId);
-      setCameras(prev => prev.filter(camera => camera.id !== cameraId));
+      onUpdateCameras(prev => prev.filter(camera => camera.id !== cameraId));
       setCameraAlerts(prev => {
         const newAlerts = { ...prev };
         delete newAlerts[cameraId];
