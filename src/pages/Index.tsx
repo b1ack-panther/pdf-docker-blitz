@@ -9,36 +9,31 @@ const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Check authentication status on mount
+    // Check authentication status on mount and redirect accordingly
     const checkAuth = () => {
       const authenticated = authService.isAuthenticated();
-      setIsAuthenticated(authenticated);
+      if (authenticated) {
+        navigate('/dashboard');
+      } else {
+        navigate('/login');
+      }
     };
 
     checkAuth();
-  }, []);
+  }, [navigate]);
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
   };
 
-  // Show loading state while checking authentication
-  if (isAuthenticated === null) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
+  // Redirect based on authentication status
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+        <p className="text-muted-foreground">Loading...</p>
       </div>
-    );
-  }
-
-  // Show dashboard if authenticated, login form otherwise
-  return isAuthenticated ? (
-    <Dashboard />
-  ) : (
-    <LoginForm onLoginSuccess={handleLoginSuccess} />
+    </div>
   );
 };
 

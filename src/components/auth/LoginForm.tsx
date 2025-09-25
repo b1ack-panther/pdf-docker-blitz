@@ -140,6 +140,19 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
                 <div><span className="font-mono">Password:</span> password</div>
               </div>
             </div>
+
+            {/* Register Link */}
+            <div className="text-center mt-4">
+              <Button
+                type="button"
+                variant="link"
+                onClick={() => navigate('/register')}
+                disabled={isLoading}
+                className="text-sm"
+              >
+                Don't have an account? Sign up
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
