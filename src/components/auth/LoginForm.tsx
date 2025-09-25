@@ -16,7 +16,7 @@ interface LoginFormProps {
 export function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState<LoginCredentials>({
-    username: 'admin',
+    email: 'admin@demo.com',
     password: 'password',
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -68,16 +68,16 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="username" className="text-sm font-medium">
-                  Username
+                <Label htmlFor="email" className="text-sm font-medium">
+                  Email
                 </Label>
                 <Input
-                  id="username"
-                  type="text"
-                  placeholder="Enter your username"
-                  value={credentials.username}
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={credentials.email}
                   onChange={(e) =>
-                    setCredentials((prev) => ({ ...prev, username: e.target.value }))
+                    setCredentials((prev) => ({ ...prev, email: e.target.value }))
                   }
                   required
                   className="bg-input border-border"
@@ -136,7 +136,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
             <div className="mt-6 p-3 bg-muted/30 rounded-md border border-border/30">
               <p className="text-xs text-muted-foreground mb-2">Demo Credentials:</p>
               <div className="text-xs space-y-1">
-                <div><span className="font-mono">Username:</span> admin</div>
+                <div><span className="font-mono">Email:</span> admin@demo.com</div>
                 <div><span className="font-mono">Password:</span> password</div>
               </div>
             </div>

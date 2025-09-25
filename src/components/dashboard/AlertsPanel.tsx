@@ -32,8 +32,8 @@ export function AlertsPanel() {
   const loadAlerts = async () => {
     try {
       setIsLoading(true);
-      const alertsData = await apiService.getAlerts(50);
-      setAlerts(alertsData);
+      const result = await apiService.getAlerts({ per: 50 });
+      setAlerts(result.alerts);
     } catch (error) {
       console.error('Failed to load alerts:', error);
     } finally {
@@ -47,9 +47,9 @@ export function AlertsPanel() {
     });
   };
 
-  const markAsRead = async (alertId: string) => {
+  const markAsRead = async (alertId: number) => {
     try {
-      await apiService.markAlertAsRead(alertId);
+      await apiService.markAlertAsRead(alertId.toString());
       setAlerts(prev => prev.map(alert => 
         alert.id === alertId ? { ...alert, isRead: true } : alert
       ));
@@ -61,7 +61,7 @@ export function AlertsPanel() {
   const markAllAsRead = async () => {
     const unreadAlerts = alerts.filter(alert => !alert.isRead);
     try {
-      await Promise.all(unreadAlerts.map(alert => apiService.markAlertAsRead(alert.id)));
+      await Promise.all(unreadAlerts.map(alert => apiService.markAlertAsRead(alert.id.toString())));
       setAlerts(prev => prev.map(alert => ({ ...alert, isRead: true })));
     } catch (error) {
       console.error('Failed to mark all alerts as read:', error);
@@ -217,9 +217,9 @@ export function AlertsPanel() {
                       <div className="flex items-center space-x-4 text-xs text-muted-foreground">
                         <div className="flex items-center space-x-1">
                           <Clock className="w-3 h-3" />
-                          <span>{formatDistanceToNow(alert.timestamp, { addSuffix: true })}</span>
+                          <span>{formatDistanceToNow(new Date(alert.timestamp), { addSuffix: true })}</span>
                         </div>
-                        <div>{format(alert.timestamp, 'MMM d, HH:mm:ss')}</div>
+                        <div>{format(new Date(alert.timestamp), 'MMM d, HH:mm:ss')}</div>
                       </div>
                     </div>
                   </div>

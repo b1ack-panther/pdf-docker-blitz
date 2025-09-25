@@ -31,13 +31,13 @@ export default function Dashboard() {
 
   const loadInitialData = async () => {
     try {
-      const [camerasData, alertsData] = await Promise.all([
+      const [camerasData, alertsResult] = await Promise.all([
         apiService.getCameras(),
-        apiService.getAlerts(50),
+        apiService.getAlerts({ per: 50 }),
       ]);
       
       setCameras(camerasData);
-      setAlerts(alertsData);
+      setAlerts(alertsResult.alerts);
     } catch (error) {
       console.error('Failed to load initial data:', error);
     }

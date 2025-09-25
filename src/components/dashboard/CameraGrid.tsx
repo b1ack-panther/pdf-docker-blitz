@@ -33,8 +33,8 @@ export function CameraGrid({ cameras, onAddCamera, onUpdateCameras }: CameraGrid
       
       // Load recent alerts for each camera
       const alertsPromises = cameras.map(async (camera) => {
-        const alerts = await apiService.getCameraAlerts(camera.id, 5);
-        return { cameraId: camera.id, alerts };
+        const alerts = await apiService.getCameraAlerts(Number(camera.id), 5);
+        return { cameraId: camera.id.toString(), alerts };
       });
       
       const alertsData = await Promise.all(alertsPromises);
@@ -55,11 +55,11 @@ export function CameraGrid({ cameras, onAddCamera, onUpdateCameras }: CameraGrid
     wsService.on('alert', (alert: AlertType) => {
       setCameraAlerts(prev => ({
         ...prev,
-        [alert.cameraId]: [alert, ...(prev[alert.cameraId] || [])].slice(0, 5),
+        [alert.cameraId.toString()]: [alert, ...(prev[alert.cameraId.toString()] || [])].slice(0, 5),
       }));
     });
 
-    wsService.on('stream_status', (data: { cameraId: string; status: Camera['status']; isStreaming: boolean }) => {
+    wsService.on('stream_status', (data: { cameraId: number; status: Camera['status']; isStreaming: boolean }) => {
       onUpdateCameras(prev => prev.map(camera => 
         camera.id === data.cameraId 
           ? { ...camera, status: data.status, isStreaming: data.isStreaming }
@@ -68,7 +68,7 @@ export function CameraGrid({ cameras, onAddCamera, onUpdateCameras }: CameraGrid
     });
   };
 
-  const handleStreamToggle = async (cameraId: string, shouldStart: boolean) => {
+  const handleStreamToggle = async (cameraId: number, shouldStart: boolean) => {
     try {
       if (shouldStart) {
         await apiService.startStream(cameraId);
@@ -102,13 +102,13 @@ export function CameraGrid({ cameras, onAddCamera, onUpdateCameras }: CameraGrid
     }
   };
 
-  const handleDeleteCamera = async (cameraId: string) => {
+  const handleDeleteCamera = async (cameraId: number) => {
     try {
       await apiService.deleteCamera(cameraId);
       onUpdateCameras(prev => prev.filter(camera => camera.id !== cameraId));
       setCameraAlerts(prev => {
         const newAlerts = { ...prev };
-        delete newAlerts[cameraId];
+        delete newAlerts[cameraId.toString()];
         return newAlerts;
       });
     } catch (error) {
@@ -168,7 +168,7 @@ export function CameraGrid({ cameras, onAddCamera, onUpdateCameras }: CameraGrid
           <CameraTile
             key={camera.id}
             camera={camera}
-            alerts={cameraAlerts[camera.id] || []}
+            alerts={cameraAlerts[camera.id.toString()] || []}
             onStreamToggle={handleStreamToggle}
             onUpdateCamera={handleUpdateCamera}
             onDeleteCamera={handleDeleteCamera}

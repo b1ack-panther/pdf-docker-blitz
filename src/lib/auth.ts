@@ -1,8 +1,8 @@
 import { AuthToken, LoginCredentials, User } from '@/types';
 
 const STORAGE_KEY = 'skylark_auth_token';
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
 
-// Mock authentication service
 export class AuthService {
   private static instance: AuthService;
   
@@ -14,83 +14,49 @@ export class AuthService {
     }
     return AuthService.instance;
   }
+
+  private async handleResponse<T>(response: Response): Promise<T> {
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'Network error' }));
+      throw new Error(error.message || `HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  }
   
   async login(credentials: LoginCredentials): Promise<AuthToken> {
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const response = await fetch(`${BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+    });
+
+    const result = await this.handleResponse<{ token: string; user: User }>(response);
     
-    // Mock authentication - in real app, this would call backend API
-    if (credentials.username === 'admin' && credentials.password === 'password') {
-      const token: AuthToken = {
-        token: 'mock-jwt-token-' + Date.now(),
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-        user: {
-          id: '1',
-          username: credentials.username,
-          email: 'admin@skylarklabs.ai',
-          createdAt: new Date(),
-        },
-      };
-      
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(token));
-      return token;
-    }
+    const token: AuthToken = {
+      token: result.token,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+      user: result.user,
+    };
     
-    throw new Error('Invalid credentials');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(token));
+    return token;
   }
 
   async register(credentials: LoginCredentials): Promise<AuthToken> {
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const response = await fetch(`${BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+    });
+
+    const user = await this.handleResponse<User>(response);
     
-    // In real app, this would make API call to /register endpoint
-    try {
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
-
-      if (!response.ok) {
-        throw new Error('Registration failed');
-      }
-
-      // For now, simulate successful registration and auto-login
-      const token: AuthToken = {
-        token: 'mock-jwt-token-' + Date.now(),
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-        user: {
-          id: Date.now().toString(),
-          username: credentials.username,
-          email: `${credentials.username}@skylarklabs.ai`,
-          createdAt: new Date(),
-        },
-      };
-      
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(token));
-      return token;
-    } catch (error) {
-      // Fallback to mock registration if API is not available
-      if (credentials.username && credentials.password) {
-        const token: AuthToken = {
-          token: 'mock-jwt-token-' + Date.now(),
-          expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-          user: {
-            id: Date.now().toString(),
-            username: credentials.username,
-            email: `${credentials.username}@skylarklabs.ai`,
-            createdAt: new Date(),
-          },
-        };
-        
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(token));
-        return token;
-      }
-      
-      throw new Error('Registration failed');
-    }
+    // After registration, automatically log in
+    return this.login(credentials);
   }
   
   logout(): void {

@@ -1,22 +1,25 @@
 export interface User {
-  id: string;
-  username: string;
+  id: number;
   email: string;
-  createdAt: Date;
 }
 
-export interface Camera {
-  id: string;
+// Backend camera model
+export interface BackendCamera {
+  id: number;
   name: string;
   rtspUrl: string;
-  location: string;
-  isEnabled: boolean;
-  isStreaming: boolean;
-  status: 'active' | 'inactive' | 'error' | 'connecting';
+  location: string | null;
+  enabled: boolean;
+  userId: number;
+  createdAt: string;
+}
+
+// Frontend camera model (extends backend with UI state)
+export interface Camera extends BackendCamera {
+  isStreaming?: boolean;
+  status?: 'active' | 'inactive' | 'error' | 'connecting';
   fps?: number;
-  faceDetectionEnabled: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  faceDetectionEnabled?: boolean;
 }
 
 export interface FaceDetection {
@@ -33,14 +36,21 @@ export interface FaceDetection {
   snapshotUrl?: string;
 }
 
-export interface Alert {
-  id: string;
-  cameraId: string;
-  cameraName: string;
-  type: 'face_detected' | 'stream_error' | 'camera_offline';
-  message: string;
-  timestamp: Date;
-  isRead: boolean;
+// Backend alert model
+export interface BackendAlert {
+  id: number;
+  cameraId: number;
+  timestamp: string;
+  confidence: number;
+  imageUrl: string | null;
+}
+
+// Frontend alert model (extends backend with UI features)
+export interface Alert extends BackendAlert {
+  cameraName?: string;
+  type?: 'face_detected' | 'stream_error' | 'camera_offline';
+  message?: string;
+  isRead?: boolean;
   faceDetection?: FaceDetection;
 }
 
@@ -62,7 +72,7 @@ export interface WebSocketMessage {
 }
 
 export interface LoginCredentials {
-  username: string;
+  email: string;
   password: string;
 }
 

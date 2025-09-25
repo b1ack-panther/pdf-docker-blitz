@@ -44,11 +44,7 @@ export function AddCameraDialog({ open, onOpenChange, onCameraAdded }: AddCamera
         name: formData.name,
         rtspUrl: formData.rtspUrl,
         location: formData.location,
-        isEnabled: true,
-        isStreaming: false,
-        status: 'inactive',
-        fps: formData.fps,
-        faceDetectionEnabled: formData.faceDetectionEnabled,
+        enabled: true,
       });
 
       onCameraAdded(newCamera);

@@ -37,9 +37,9 @@ import { cn } from '@/lib/utils';
 interface CameraTileProps {
   camera: Camera;
   alerts: AlertType[];
-  onStreamToggle: (cameraId: string, shouldStart: boolean) => void;
+  onStreamToggle: (cameraId: number, shouldStart: boolean) => void;
   onUpdateCamera: (camera: Camera) => void;
-  onDeleteCamera: (cameraId: string) => void;
+  onDeleteCamera: (cameraId: number) => void;
 }
 
 // Simulated face detection boxes for demo
@@ -262,7 +262,7 @@ export function CameraTile({
             variant={camera.isStreaming ? "stop" : "stream"}
             size="sm"
             onClick={handleStreamToggle}
-            disabled={isStreamLoading || !camera.isEnabled}
+            disabled={isStreamLoading || !camera.enabled}
             className="flex items-center space-x-2"
           >
             {isStreamLoading ? (
@@ -329,7 +329,7 @@ export function CameraTile({
                   <div className="flex items-center justify-between">
                     <span>{alert.message}</span>
                     <span className="text-muted-foreground">
-                      {formatDistanceToNow(alert.timestamp, { addSuffix: true })}
+                      {formatDistanceToNow(new Date(alert.timestamp), { addSuffix: true })}
                     </span>
                   </div>
                 </div>

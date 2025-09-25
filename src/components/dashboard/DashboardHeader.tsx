@@ -99,15 +99,15 @@ export function DashboardHeader({ totalCameras, activeCameras, unreadAlerts }: D
                   <User className="w-4 h-4 text-primary" />
                 </div>
                 <div className="text-left hidden sm:block">
-                  <div className="text-sm font-medium">{user?.username || 'Admin'}</div>
-                  <div className="text-xs text-muted-foreground">{user?.email}</div>
+                  <div className="text-sm font-medium">{user?.email || 'admin@demo.com'}</div>
+                  <div className="text-xs text-muted-foreground">ID: {user?.id}</div>
                 </div>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <div className="px-2 py-1.5">
-                <div className="text-sm font-medium">{user?.username || 'Admin'}</div>
-                <div className="text-xs text-muted-foreground">{user?.email}</div>
+                <div className="text-sm font-medium">{user?.email || 'admin@demo.com'}</div>
+                <div className="text-xs text-muted-foreground">ID: {user?.id}</div>
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem>

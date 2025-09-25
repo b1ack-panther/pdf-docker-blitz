@@ -15,7 +15,7 @@ interface RegisterFormProps {
 export function RegisterForm({ onRegisterSuccess }: RegisterFormProps) {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-    username: '',
+    email: '',
     password: '',
     confirmPassword: ''
   });
@@ -42,7 +42,7 @@ export function RegisterForm({ onRegisterSuccess }: RegisterFormProps) {
     
     try {
       await authService.register({
-        username: credentials.username,
+        email: credentials.email,
         password: credentials.password
       });
       onRegisterSuccess();
@@ -72,13 +72,13 @@ export function RegisterForm({ onRegisterSuccess }: RegisterFormProps) {
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="username"
-                type="text"
-                placeholder="Enter your username"
-                value={credentials.username}
-                onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                value={credentials.email}
+                onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
                 required
                 disabled={isLoading}
               />

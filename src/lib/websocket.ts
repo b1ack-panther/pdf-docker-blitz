@@ -59,25 +59,15 @@ export class WebSocketService {
       }
       
       const mockAlert: Alert = {
-        id: Date.now().toString(),
-        cameraId: Math.random() > 0.5 ? '1' : '3',
+        id: Date.now(),
+        cameraId: Math.random() > 0.5 ? 1 : 3,
+        timestamp: new Date().toISOString(),
+        confidence: Math.random() * 0.2 + 0.8,
+        imageUrl: null,
         cameraName: Math.random() > 0.5 ? 'Main Entrance' : 'Conference Room',
         type: 'face_detected',
         message: `Face detected with ${Math.floor(Math.random() * 20 + 80)}% confidence`,
-        timestamp: new Date(),
         isRead: false,
-        faceDetection: {
-          id: `fd_${Date.now()}`,
-          cameraId: Math.random() > 0.5 ? '1' : '3',
-          boundingBox: {
-            x: Math.floor(Math.random() * 200 + 100),
-            y: Math.floor(Math.random() * 150 + 50),
-            width: Math.floor(Math.random() * 50 + 60),
-            height: Math.floor(Math.random() * 60 + 80),
-          },
-          confidence: Math.random() * 0.2 + 0.8,
-          timestamp: new Date(),
-        },
       };
       
       this.emit('alert', mockAlert);
